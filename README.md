@@ -1,4 +1,4 @@
-# rust and flutter grpc test
+# GRPC Protocols
 
 ## generate the code (just example, don't run it directly!)
 ### flutter
