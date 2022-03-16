@@ -5,7 +5,8 @@
 ```bash
 cd flutter_client
 
-protoc --dart_out=grpc:lib/src/generated --proto_path ../party_protocals/protocols helloworld.proto
+mkdir -p lib/generated_grpc
+protoc --dart_out=grpc:lib/generated_grpc --proto_path ../party_protocals/protocols helloworld.proto
 
 cd ..
 ```
