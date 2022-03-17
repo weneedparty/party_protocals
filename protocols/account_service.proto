@@ -51,4 +51,5 @@ message JWTIsOKRequest {
 
 message JWTIsOKReply {
     bool ok = 1;
+    string email = 2;
 }
