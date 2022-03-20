@@ -11,6 +11,8 @@ protoc --dart_out=grpc:lib/generated_grpc --proto_path ../party_protocals/protoc
 
 protoc --dart_out=grpc:lib/generated_grpc --proto_path ../party_protocals/protocols account_service.proto
 
+
+protoc --dart_out=grpc:lib/generated_grpc --proto_path ../party_protocals/protocols room_control_service.proto
 cd ..
 ```
 
@@ -22,6 +24,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     tonic_build::compile_protos("../party_protocals/protocols/helloworld.proto")?;
 
     tonic_build::compile_protos("../party_protocals/protocols/account_service.proto")?;
+
+    tonic_build::compile_protos("../party_protocals/protocols/room_control_service.proto")?;
 
     Ok(())
 }
@@ -60,13 +64,50 @@ python -m grpc_tools.protoc --proto_path ../party_protocals/protocols --python_o
 echo -e "import os \nimport sys \nsys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))" >> src/generated_grpc/__init__.py
 ```
 
+### typescript for nodejs
+```bash
+yarn add ts-protoc-gen@next -D
+
+yarn add grpc-tools --ignore-scripts
+
+pushd node_modules/grpc-tools
+node_modules/.bin/node-pre-gyp install --target_arch=x64
+popd
+
+
+mkdir -p src/generated_grpc
+
+PROTOC_GEN_TS_PATH="./node_modules/.bin/protoc-gen-ts"
+PROTOC_GEN_GRPC_PATH="./node_modules/.bin/grpc_tools_node_protoc_plugin"
+OUT_DIR="./src/generated_grpc"
+
+protoc \
+    --proto_path ../party_protocals/protocols \
+    --plugin="protoc-gen-ts=${PROTOC_GEN_TS_PATH}" \
+    --plugin=protoc-gen-grpc=${PROTOC_GEN_GRPC_PATH} \
+    --js_out="import_style=commonjs,binary:${OUT_DIR}" \
+    --ts_out="service=grpc-node,mode=grpc-js:${OUT_DIR}" \
+    --grpc_out="grpc_js:${OUT_DIR}" \
+    room_control_service.proto
+```
+
 ## port design
 
-### old hello world code
-rust: 40051
-
-### rust gateway
-rust: 40052
+### old hello world code (grpc)
+    rust: 40051
 
 ### account service (restful)
-python: 40053
+    python: 40052
+
+### room controller (grpc)
+    typescript: 40053
+
+    livekit_control_service: 7880
+
+    livekit_user_direct_connect_port: 
+        * 7881 tcp
+        * 7882 udp
+
+### gateway (grpc)
+    account service: 40054
+    room controller: 40055
