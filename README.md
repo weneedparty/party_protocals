@@ -116,6 +116,7 @@ protoc \
 ```
 - configs
     - user_database
+    config.py
     livekit.yaml
     o365_token.txt
 ```
@@ -123,4 +124,6 @@ protoc \
 
 ```bash
 docker-compose up
+
+#docker-compose up -d
 ```
