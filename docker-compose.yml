@@ -14,10 +14,12 @@ services:
       - ./configs/user_database:/code/data
     environment: 
       - redis_NETWORK_NAME=redis
+    restart: always
   redis:
     image: "redis"
     expose:
       - "6379"
+    restart: always
   
   weloveparty_roommanageservice:
     platform: linux/amd64
@@ -30,6 +32,7 @@ services:
         target: /code/livekit.yaml
     environment: 
       - livekit_NETWORK_NAME=the_livekit_server
+    restart: always
   the_livekit_server:
     image: "livekit/livekit-server:latest"
     ports:
@@ -43,6 +46,7 @@ services:
         source: ./configs/livekit.yaml
         target: /livekit.yaml
     command: --config /livekit.yaml --node-ip 192.168.50.189
+    restart: always
   
   weloveparty_gateway:
     build: ../rust_gateway
@@ -53,3 +57,4 @@ services:
     environment: 
       - accountservice_NETWORK_NAME=weloveparty_accountservice
       - roommanageservice_NETWORK_NAME=weloveparty_roommanageservice
+    restart: always
