@@ -111,3 +111,16 @@ protoc \
 ### gateway (grpc)
     account service: 40054
     room controller: 40055
+
+## run
+```
+- configs
+    - user_database
+    livekit.yaml
+    o365_token.txt
+```
+
+
+```bash
+docker-compose up
+```

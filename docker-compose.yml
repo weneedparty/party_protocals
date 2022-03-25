@@ -1,0 +1,52 @@
+version: "3.9"
+services:
+  weloveparty_accountservice:
+    build: ../pythonUserSystem
+    expose:
+      - "40052"
+    volumes:
+      - type: bind
+        source: ./configs/o365_token.txt
+        target: /code/o365_token.txt
+      - ./configs/user_database:/code/data
+    environment: 
+      - redis_NETWORK_NAME=redis
+  redis:
+    image: "redis"
+    expose:
+      - "6379"
+  
+  weloveparty_roommanageservice:
+    platform: linux/amd64
+    build: ../typescript_room_controller
+    expose:
+      - "40053"
+    volumes:
+      - type: bind
+        source: ./configs/livekit.yaml
+        target: /code/livekit.yaml
+    environment: 
+      - livekit_NETWORK_NAME=the_livekit_server
+  the_livekit_server:
+    image: "livekit/livekit-server:latest"
+    ports:
+      - "7880:7880"
+      - "7881:7881"
+      - "7882:7882/udp"
+    expose:
+      - "7880"
+    volumes:
+      - type: bind
+        source: ./configs/livekit.yaml
+        target: /livekit.yaml
+    command: --config /livekit.yaml --node-ip 192.168.50.189
+  
+  weloveparty_gateway:
+    build: ../rust_gateway
+    ports:
+      # - "7880:7880"
+      - "40054:40054"
+      - "40055:40055"
+    environment: 
+      - accountservice_NETWORK_NAME=weloveparty_accountservice
+      - roommanageservice_NETWORK_NAME=weloveparty_roommanageservice
