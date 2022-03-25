@@ -8,6 +8,9 @@ services:
       - type: bind
         source: ./configs/o365_token.txt
         target: /code/o365_token.txt
+      - type: bind
+        source: ./configs/config.py
+        target: /code/src/config.py
       - ./configs/user_database:/code/data
     environment: 
       - redis_NETWORK_NAME=redis
