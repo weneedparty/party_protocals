@@ -116,6 +116,7 @@ protoc \
 ```
 - configs
     - user_database
+    - redis_data
     config.py
     livekit.yaml
     o365_token.txt

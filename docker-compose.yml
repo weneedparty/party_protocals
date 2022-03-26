@@ -18,9 +18,12 @@ services:
   redis:
     image: "redis"
     expose:
-      - "6379"
+      - '6379'
+    command: redis-server --save 20 1 --loglevel warning
+    volumes: 
+      - ./configs/redis_data:/data
     restart: always
-  
+
   weloveparty_roommanageservice:
     platform: linux/amd64
     build: ../typescript_room_controller
@@ -46,6 +49,7 @@ services:
         source: ./configs/livekit.yaml
         target: /livekit.yaml
     command: --config /livekit.yaml --node-ip 192.168.50.189
+    # change this node ip to your server ip!!!!!!!!!!!!!!
     restart: always
   
   weloveparty_gateway:
