@@ -1,5 +1,14 @@
 version: "3.9"
 services:
+  envoy:
+    build:
+      context: ./
+      dockerfile: ./envoy_Dockerfile
+    image: grpcweb/envoy
+    ports:
+      - "40056:40056"
+      - "40057:40057"
+    restart: always
   weloveparty_accountservice:
     build: ../pythonUserSystem
     expose:

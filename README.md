@@ -112,6 +112,10 @@ protoc \
     account service: 40054
     room controller: 40055
 
+    web proxy:
+        account service: 40056
+        room controller: 40057
+
 ## run
 ```
 - configs
