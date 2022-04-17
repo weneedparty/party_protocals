@@ -1,5 +1,11 @@
 version: "3.9"
 services:
+  html:
+      image: nginx
+      ports:
+          - 8888:80
+      volumes:
+          - ../web_client/dist:/usr/share/nginx/html
   envoy:
     build:
       context: ./
@@ -57,7 +63,7 @@ services:
       - type: bind
         source: ./configs/livekit.yaml
         target: /livekit.yaml
-    command: --config /livekit.yaml --node-ip 192.168.50.189
+    command: --config /livekit.yaml --node-ip 192.168.51.189
     # change this node ip to your server ip!!!!!!!!!!!!!!
     restart: always
   
